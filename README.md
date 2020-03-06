@@ -13,3 +13,10 @@ Contributors / Licensing
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
 
 
+Required Packages:
+Flask==1.1.1
+Flask-Cors==3.0.8
+
+(Added Flask-Cors to handle issues with Cross-Origin Blocking)
+
+

@@ -23,8 +23,10 @@
 
 import flask
 from flask import Flask, request, redirect
+from flask_cors import CORS
 import json
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 # An example world
@@ -85,13 +87,13 @@ def update(entity):
     e = myWorld.get(entity)    
     return json.dumps( e )
 
-@app.route("/world", methods=['POST','GET'])    
+@app.route("/world", methods=['POST','GET'])
 def world():
     '''you should probably return the world here'''
     e = myWorld.world()  
     return json.dumps( e )
 
-@app.route("/entity/<entity>")    
+@app.route("/entity/<entity>")
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
     e = myWorld.get(entity)    

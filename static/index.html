@@ -55,7 +55,6 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 
 world = {};
 
-//XXX: TODO Make this prettier!
 function drawCircle(context,entity) {
     with(context) {
         beginPath();              
@@ -70,9 +69,20 @@ function drawCircle(context,entity) {
     }
 }
 
+// Source: https://stackoverflow.com/questions/1484506/random-color-generator
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
 function prepEntity(entity) {
     if (!entity["colour"]) {
-        entity["colour"] = "#FF0000";
+        entity["colour"] = getRandomColor();
     }
     if (!entity["radius"]) {
         entity["radius"] = 50;
@@ -136,7 +146,6 @@ function getPosition(e) {
 
 function addEntity(entity, data) {
     world[entity] = data;
-    //drawNextFrame(); // (but should we?)
 	sendJSONXMLHTTPRequest("http://127.0.0.1:5000/entity/" + entity, data, callback => {})
 
 }
@@ -244,24 +253,23 @@ mouse = (function() {
     return self;
 })();
 
-// Add the application specific mouse listeners!
-//XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
+    addEntityWithoutName({'x':x,'y':y,'colour':getRandomColor()});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
+    addEntityWithoutName({'x':x,'y':y,'colour':getRandomColor()});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'green',
+    addEntityWithoutName({'x':x,'y':y,'colour':getRandomColor(),
                           'radius':10});
 });
 
 
 function update() {
 	sendJSONXMLHTTPRequest("http://127.0.0.1:5000/world", {}, callback => {world = callback})
+	drawNextFrame();
     drawFrame();
 }
 
